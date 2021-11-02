@@ -1,5 +1,4 @@
 const {Restaurant, Menu, MenuItem} = require('./db/models.js')
-const {sequelize, DataTypes, Model} = require('./db/sequelize_index');
 
 const express = require('express');
 
@@ -37,7 +36,22 @@ app.get('/restaurants', function(req, res) {
     Restaurant.findAll()
         .then(data => {
             res.send(data)
-        });
+        })
+})
+
+app.get('/restaurants/:id', function(req, res) {
+    Restaurant.findByPk(req.params.id, {
+        include: {
+            model: Menu,
+            as: 'menus',
+            include: {
+                model: MenuItem,
+                as: 'menuItems'
+            }}
+        })
+        .then(data => {
+            res.send(data)
+        })
 })
 
 app.listen(port, () => {
