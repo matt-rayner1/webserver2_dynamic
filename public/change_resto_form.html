@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Restaurant changer</title>
+    </head>
+    <body>
+        <form method="post" action="http://localhost:3001/restaurants?_method=PUT">
+        Restaurant ID: (to change) <input type="number", name="id"> <br>
+        New restaurant name: <input type="text", name="name"> <br>
+        New restaurant image url: <input type="text", name="image"> <br>
+        <input type="submit" name="_method" value="submit">
+        </form>
+    </body>
+</html>
