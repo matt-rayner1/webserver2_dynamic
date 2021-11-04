@@ -1,4 +1,6 @@
-const {Restaurant, Menu, MenuItem} = require('./db/models.js')
+const {Restaurant, Menu, MenuItem} = require('./db/models.js');
+
+//for UPDATE and DELETE methods
 const methodOverride = require('method-override');
 
 const express = require('express');
@@ -11,8 +13,11 @@ app.use(express.static('public'));
 
 app.use(express.urlencoded( {extended: true}));
 app.use(express.json());
+//add this to use methodOverride properly
 app.use(methodOverride('_method'));
 
+
+// BASIC ENDPOINT EXAMPLES
 app.get('/now', (req, res) => {
     const date = new Date();
     res.send(date.toString());
@@ -36,7 +41,9 @@ res.send(JSON.stringify(response));
 })
 
 
-//RESTAURANT CRUD
+//RESTAURANT CRUD EXAMPLES
+
+//read all
 app.get('/restaurants', (req, res) => {
     Restaurant.findAll()
         .then(data => {
@@ -44,6 +51,7 @@ app.get('/restaurants', (req, res) => {
         })
 })
 
+//read 1 restaurant
 app.get('/restaurants/:id', (req, res) => {
     Restaurant.findByPk(req.params.id, {
         include: {
@@ -59,6 +67,7 @@ app.get('/restaurants/:id', (req, res) => {
         })
 })
 
+//Create restaurant
 app.post(
     '/restaurants',
     //name must be alphanumeric and less than 50 characters
@@ -77,6 +86,7 @@ app.post(
     }
 )
 
+//Delete restaurant
 app.delete(
     '/restaurants',
     check('name').isAlphanumeric(),
@@ -92,6 +102,7 @@ app.delete(
     }
 )
 
+//Update restaurant
 app.put(
     '/restaurants',
     //name must be alphanumeric and less than 50 characters
@@ -112,6 +123,7 @@ app.put(
     }
 )
 
+//Create local listener
 app.listen(port, () => {
     console.log(`server listening at http://localhost:${port}`);
 })
